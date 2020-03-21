@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/ManuStoessel/wirvsvirus/backend/user"
+	"github.com/ManuStoessel/wirvsvirus/backend/entity"
 )
 
 // User defines the user entity on the api
@@ -14,8 +14,8 @@ type User struct {
 
 // Donation defines the donation entity on the api
 type Donation struct {
-	ID         string    `json:"id"`
-	ReceiverID string    `json:"receiverid"`
-	Receiver   user.User `json:"receiver"`
-	Amount     float32   `json:"amount"`
+	ID         string      `json:"id"`
+	ReceiverID string      `json:"receiverid"`
+	Receiver   entity.User `json:"receiver"`
+	Amount     float32     `json:"amount"`
 }

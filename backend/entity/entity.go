@@ -27,6 +27,7 @@ func init() {
 		}
 
 		db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&Company{})
+		db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&User{})
 	}
 }
 

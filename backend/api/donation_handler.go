@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/ManuStoessel/wirvsvirus/backend/donation"
+	"github.com/ManuStoessel/wirvsvirus/backend/entity"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 )
@@ -16,7 +16,8 @@ func getDonation(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := donation.Read(id)
+		data := &entity.Donation{}
+		data = data.Read(id)
 		if data != nil {
 			responseBody, err := json.Marshal(data)
 			if err != nil {
@@ -49,7 +50,8 @@ func updateDonation(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := donation.Read(id)
+		data := &entity.Donation{}
+		data = data.Read(id)
 		if data != nil {
 			donationToBeUpdated := Donation{}
 			err := json.NewDecoder(r.Body).Decode(&donationToBeUpdated)
@@ -62,14 +64,14 @@ func updateDonation(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			donationUpdated := &donation.Donation{
+			donationUpdated := &entity.Donation{
 				ID:         donationToBeUpdated.ID,
 				ReceiverID: donationToBeUpdated.ReceiverID,
 				Receiver:   donationToBeUpdated.Receiver,
 				Amount:     donationToBeUpdated.Amount,
 			}
 
-			donation.Update(donationUpdated)
+			donationUpdated.Update()
 
 			responseBody, err := json.Marshal(data)
 			if err != nil {
@@ -102,9 +104,10 @@ func deleteDonation(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := donation.Read(id)
+		data := &entity.Donation{}
+		data = data.Read(id)
 		if data != nil {
-			donation.Delete(data)
+			data.Delete()
 			responseBody, err := json.Marshal(data)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
@@ -154,13 +157,13 @@ func createDonation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	donationCreated := &donation.Donation{
+	donationCreated := &entity.Donation{
 		ReceiverID: donationToBeCreated.ReceiverID,
 		Receiver:   donationToBeCreated.Receiver,
 		Amount:     donationToBeCreated.Amount,
 	}
 
-	donation.Create(donationCreated)
+	donationCreated.Create()
 
 	response, err := json.Marshal(Donation{
 		ID:         donationCreated.ID,
