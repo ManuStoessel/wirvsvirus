@@ -31,18 +31,16 @@ func init() {
 }
 
 // Create a user
-func Create(user *User) (*User, error) {
+func Create(user *User) {
 	if user.ID == "" {
 		user.ID = uuid.New().String()
 	}
 
 	db.Create(&user)
-
-	return user, nil
 }
 
 // Read get user by id
-func Read(id string) (user *User, err error) {
+func Read(id string) (user *User) {
 	user = &User{}
 
 	db.Where("id = ?", id).First(&user)
@@ -51,11 +49,11 @@ func Read(id string) (user *User, err error) {
 }
 
 // Update a user
-func Update(user *User) (*User, error) {
-	return nil, nil
+func Update(user *User) {
+	db.Save(&user)
 }
 
 // Delete a user
-func Delete(user *User) error {
-	return nil
+func Delete(user *User) {
+	db.Delete(&user)
 }
