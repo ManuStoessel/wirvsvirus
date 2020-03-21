@@ -6,9 +6,8 @@ import (
 
 func TestDonation(t *testing.T) {
 	var testEmail string = "info@alexanderwagner.eu"
-	var testName string = "Alex"
 
-	user := &User{Username: testName, Email: testEmail}
+	user := &User{Email: testEmail}
 	user.Create()
 
 	userID := user.ID

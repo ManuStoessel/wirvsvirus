@@ -1,7 +1,6 @@
 package entity
 
 import (
-	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -28,34 +27,7 @@ func init() {
 
 		db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&Company{})
 		db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&User{})
+		db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&Image{})
+		db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&Donation{})
 	}
-}
-
-type Company struct {
-	ID   string
-	Name string
-}
-
-func (company *Company) Create() {
-	if company.ID == "" {
-		company.ID = uuid.New().String()
-	}
-
-	db.Create(&company)
-}
-
-func (company *Company) Update() {
-	db.Save(&company)
-}
-
-func (company *Company) Delete() {
-	db.Delete(&company)
-}
-
-func (company *Company) Read(id string) *Company {
-	company = &Company{}
-
-	db.Where("id = ?", id).First(&company)
-
-	return company
 }

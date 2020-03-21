@@ -4,8 +4,9 @@ import "github.com/google/uuid"
 
 type User struct {
 	ID       string
-	Username string
 	Email    string
+	Password string
+	ImageURL string
 }
 
 func (user *User) Create() {
