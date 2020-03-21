@@ -5,7 +5,14 @@ services:
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=my-secret-pw
+      - MYSQL_DATABASE=wirvsvirus
+      - MYSQL_USER=wirvsvirus
+      - MYSQL_PASSWORD=wirvsvirus-secret
     volumes:
       - ./data:/var/lib/mysql
     ports:
       - "3306:3306"
+  wirvsvirus-api:
+    build: .
+    ports:
+      - "8080:8080"
