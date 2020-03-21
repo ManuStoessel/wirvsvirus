@@ -50,10 +50,10 @@ func Read(id string) (user *User) {
 
 // Update a user
 func Update(user *User) {
-	db.Save(user)
+	db.Save(&user)
 }
 
 // Delete a user
 func Delete(user *User) {
-	db.Delete(user)
+	db.Delete(&user)
 }
