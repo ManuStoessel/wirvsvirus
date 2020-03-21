@@ -26,21 +26,32 @@ func main() {
 		Usage: "This will start the wirvsvirus backend http server.",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:  "port",
-				Value: "8080",
-				Usage: "Start HTTP server on port `PORT`",
+				Name:        "port",
+				Value:       "8080",
+				Usage:       "Start HTTP server on port `PORT`",
+				DefaultText: "8080",
 			},
 			&cli.StringFlag{
-				Name:     "oauth2-clientid",
-				Value:    "xxxxxxxx",
-				Usage:    "Okta OAuth2 client ID to use.",
-				Required: true,
+				Name:  "oauth2-clientid",
+				Value: "xxxxxxxx",
+				Usage: "Okta OAuth2 client ID to use.",
 			},
 			&cli.StringFlag{
-				Name:     "oauth2-issuer",
-				Value:    "xxxxxxxx",
-				Usage:    "Okta OAuth2 issuer to use.",
-				Required: true,
+				Name:  "oauth2-issuer",
+				Value: "xxxxxxxx",
+				Usage: "Okta OAuth2 issuer to use.",
+			},
+			&cli.StringFlag{
+				Name:        "oauth2-verify",
+				Value:       "false",
+				Usage:       "Set to true if you want to use Okta Authorization token verification",
+				DefaultText: "false",
+			},
+			&cli.StringFlag{
+				Name:        "log-level",
+				Value:       "warn",
+				Usage:       "Set log level to trace, debug, info, warn, error or fatal",
+				DefaultText: "warn",
 			},
 		},
 		Action: Run,
@@ -54,5 +65,13 @@ func main() {
 
 // Run will start the http server
 func Run(c *cli.Context) error {
-	return api.StartRouter(c.String("port"), c.String("oauth2-clientid"), c.String("oauth2-issuer"))
+	loglvl, err := log.ParseLevel(c.String("log-level"))
+	if err != nil {
+		log.WithField("inputLevel", c.String("log-level")).Warn("Could not parse input for log level. Defaulting to warn.")
+		log.SetLevel(log.WarnLevel)
+	} else {
+		log.SetLevel(loglvl)
+	}
+
+	return api.StartRouter(c.Bool("oauth2-verify"), c.String("port"), c.String("oauth2-clientid"), c.String("oauth2-issuer"))
 }
