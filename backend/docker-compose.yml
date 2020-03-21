@@ -1,0 +1,11 @@
+version: '3.3'
+services:
+  wirvsvirus-mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=my-secret-pw
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - "3306:3306"
