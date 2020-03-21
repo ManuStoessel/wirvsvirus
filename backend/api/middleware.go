@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"net/http"
@@ -20,14 +20,19 @@ func loggingMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-func verificationMiddleware(next http.Handler) http.Handler {
+type oauth2provider struct {
+	Issuer   string
+	ClientID string
+}
+
+func (o *oauth2provider) verificationMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		toValidate := map[string]string{}
 		toValidate["aud"] = "api://default"
-		toValidate["cid"] = clientid
+		toValidate["cid"] = o.ClientID
 
 		jwtVerifierSetup := jwtverifier.JwtVerifier{
-			Issuer:           issuer,
+			Issuer:           o.Issuer,
 			ClaimsToValidate: toValidate,
 		}
 

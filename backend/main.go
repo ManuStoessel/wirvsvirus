@@ -1,10 +1,9 @@
 package main
 
 import (
-	"net/http"
 	"os"
 
-	"github.com/gorilla/mux"
+	"github.com/ManuStoessel/wirvsvirus/backend/api"
 	log "github.com/sirupsen/logrus"
 	cli "github.com/urfave/cli/v2"
 )
@@ -20,11 +19,6 @@ func init() {
 	log.SetLevel(log.WarnLevel)
 }
 
-var (
-	clientid string
-	issuer   string
-)
-
 func main() {
 
 	app := &cli.App{
@@ -37,18 +31,16 @@ func main() {
 				Usage: "Start HTTP server on port `PORT`",
 			},
 			&cli.StringFlag{
-				Name:        "oauth2-clientid",
-				Value:       "xxxxxxxx",
-				Usage:       "Okta OAuth2 client ID to use.",
-				Required:    true,
-				Destination: &clientid,
+				Name:     "oauth2-clientid",
+				Value:    "xxxxxxxx",
+				Usage:    "Okta OAuth2 client ID to use.",
+				Required: true,
 			},
 			&cli.StringFlag{
-				Name:        "oauth2-issuer",
-				Value:       "xxxxxxxx",
-				Usage:       "Okta OAuth2 issuer to use.",
-				Required:    true,
-				Destination: &issuer,
+				Name:     "oauth2-issuer",
+				Value:    "xxxxxxxx",
+				Usage:    "Okta OAuth2 issuer to use.",
+				Required: true,
 			},
 		},
 		Action: Run,
@@ -62,14 +54,5 @@ func main() {
 
 // Run will start the http server
 func Run(c *cli.Context) error {
-
-	router := mux.NewRouter().StrictSlash(true)
-
-	// definition of global middlewares to use
-	router.Use(loggingMiddleware)
-	router.Use(verificationMiddleware)
-
-	// definition of routes
-	router.HandleFunc("/", homeLink)
-	return http.ListenAndServe(":"+c.String("port"), router)
+	return api.StartRouter(c.String("port"), c.String("oauth2-clientid"), c.String("oauth2-issuer"))
 }

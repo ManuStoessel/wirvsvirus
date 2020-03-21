@@ -1,4 +1,4 @@
-module github.com/ManuStoessel/wirvsvirus/backend/v1
+module github.com/ManuStoessel/wirvsvirus/backend
 
 go 1.14
 
