@@ -10,13 +10,13 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func getUser(w http.ResponseWriter, r *http.Request) {
+func getCompany(w http.ResponseWriter, r *http.Request) {
 	queries := mux.Vars(r)
 
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := &entity.User{}
+		data := &entity.Company{}
 		data = data.Read(id)
 		if data != nil {
 			responseBody, err := json.Marshal(data)
@@ -24,15 +24,15 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(`{"error": "error marshalling data"}`))
 				log.WithFields(log.Fields{
-					"user": fmt.Sprintf("%+v", data),
-				}).Error("Unable to marshal user data.")
+					"company": fmt.Sprintf("%+v", data),
+				}).Error("Unable to marshal company data.")
 				return
 			}
 			w.WriteHeader(http.StatusOK)
 			w.Write(responseBody)
 			log.WithFields(log.Fields{
 				"id": id,
-			}).Trace("User found.")
+			}).Trace("Company found.")
 			return
 		}
 	}
@@ -41,46 +41,46 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"error": "not found"}`))
 	log.WithFields(log.Fields{
 		"queries": fmt.Sprintf("%+v", queries),
-	}).Error("Unable to find user.")
+	}).Error("Unable to find company.")
 }
 
-func updateUser(w http.ResponseWriter, r *http.Request) {
+func updateCompany(w http.ResponseWriter, r *http.Request) {
 	queries := mux.Vars(r)
 
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := &entity.User{}
+		data := &entity.Company{}
 		data = data.Read(id)
 		if data != nil {
-			userToBeUpdated := entity.User{}
-			err := json.NewDecoder(r.Body).Decode(&userToBeUpdated)
+			companyToBeUpdated := entity.Company{}
+			err := json.NewDecoder(r.Body).Decode(&companyToBeUpdated)
 			if err != nil {
 				w.WriteHeader(http.StatusBadRequest)
-				w.Write([]byte(`{"error": "could not parse body as user"}`))
+				w.Write([]byte(`{"error": "could not parse body as company"}`))
 				log.WithFields(log.Fields{
 					"body": fmt.Sprintf("%+v", r.Body),
-				}).Error("Unable to unmarshal body as user.")
+				}).Error("Unable to unmarshal body as company.")
 				return
 			}
 
-			userToBeUpdated.ID = id
-			userToBeUpdated.Update()
+			companyToBeUpdated.ID = id
+			companyToBeUpdated.Update()
 
-			responseBody, err := json.Marshal(userToBeUpdated)
+			responseBody, err := json.Marshal(companyToBeUpdated)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(`{"error": "error marshalling data"}`))
 				log.WithFields(log.Fields{
-					"user": fmt.Sprintf("%+v", data),
-				}).Error("Unable to marshal user data.")
+					"company": fmt.Sprintf("%+v", data),
+				}).Error("Unable to marshal company data.")
 				return
 			}
 			w.WriteHeader(http.StatusOK)
 			w.Write(responseBody)
 			log.WithFields(log.Fields{
 				"id": id,
-			}).Trace("User updated.")
+			}).Trace("Company updated.")
 			return
 		}
 	}
@@ -89,16 +89,16 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"error": "not found"}`))
 	log.WithFields(log.Fields{
 		"queries": fmt.Sprintf("%+v", queries),
-	}).Error("Unable to find user.")
+	}).Error("Unable to find company.")
 }
 
-func deleteUser(w http.ResponseWriter, r *http.Request) {
+func deleteCompany(w http.ResponseWriter, r *http.Request) {
 	queries := mux.Vars(r)
 
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := &entity.User{}
+		data := &entity.Company{}
 		data = data.Read(id)
 		if data != nil {
 			data.Delete()
@@ -107,15 +107,15 @@ func deleteUser(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(`{"error": "error marshalling data"}`))
 				log.WithFields(log.Fields{
-					"user": fmt.Sprintf("%+v", data),
-				}).Error("Unable to marshal user data.")
+					"company": fmt.Sprintf("%+v", data),
+				}).Error("Unable to marshal company data.")
 				return
 			}
 			w.WriteHeader(http.StatusOK)
 			w.Write(responseBody)
 			log.WithFields(log.Fields{
 				"id": id,
-			}).Debug("User deleted.")
+			}).Debug("Company deleted.")
 			return
 		}
 	}
@@ -124,10 +124,10 @@ func deleteUser(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"error": "not found"}`))
 	log.WithFields(log.Fields{
 		"queries": fmt.Sprintf("%+v", queries),
-	}).Error("Unable to find user.")
+	}).Error("Unable to find company.")
 }
 
-func createUser(w http.ResponseWriter, r *http.Request) {
+func createCompany(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	err := r.ParseForm()
 	if err != nil {
@@ -139,63 +139,63 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userToBeCreated := entity.User{}
+	companyToBeCreated := entity.Company{}
 
-	err = json.NewDecoder(r.Body).Decode(&userToBeCreated)
+	err = json.NewDecoder(r.Body).Decode(&companyToBeCreated)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(`{"error": "could not parse body as user"}`))
+		w.Write([]byte(`{"error": "could not parse body as company"}`))
 		log.WithFields(log.Fields{
 			"body": fmt.Sprintf("%+v", r.Body),
-		}).Error("Unable to unmarshal body as user.")
+		}).Error("Unable to unmarshal body as company.")
 		return
 	}
 
-	userToBeCreated.Create()
+	companyToBeCreated.Create()
 
-	response, err := json.Marshal(userToBeCreated)
+	response, err := json.Marshal(companyToBeCreated)
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`{"error": "could not marshal user"}`))
+		w.Write([]byte(`{"error": "could not marshal company"}`))
 		log.WithFields(log.Fields{
-			"user": fmt.Sprintf("%+v", userToBeCreated),
-		}).Error("Unable to marshal user as body.")
+			"company": fmt.Sprintf("%+v", companyToBeCreated),
+		}).Error("Unable to marshal company as body.")
 		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
 	w.Write(response)
 	log.WithFields(log.Fields{
-		"user": fmt.Sprintf("%+v", userToBeCreated),
-	}).Debug("User created.")
+		"company": fmt.Sprintf("%+v", companyToBeCreated),
+	}).Debug("Company created.")
 	return
 
 }
 
-func listUsers(w http.ResponseWriter, r *http.Request) {
+func listCompanies(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	userList := UserList{}
-	user := entity.User{}
+	companyList := CompanyList{}
+	company := entity.Company{}
 
-	userList.Users = user.ListAll()
-	userList.Count = len(userList.Users)
+	companyList.Companies = company.ListAll()
+	companyList.Count = len(companyList.Companies)
 
-	responseBody, err := json.Marshal(userList)
+	responseBody, err := json.Marshal(companyList)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"error": "error marshalling data"}`))
 		log.WithFields(log.Fields{
-			"userlist": fmt.Sprintf("%+v", userList),
-		}).Error("Unable to marshal userlist data.")
+			"companylist": fmt.Sprintf("%+v", companyList),
+		}).Error("Unable to marshal companylist data.")
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
 	w.Write(responseBody)
 	log.WithFields(log.Fields{
-		"listlength": fmt.Sprintf("%+v", userList.Count),
-	}).Trace("Userlist returned.")
+		"listlength": fmt.Sprintf("%+v", companyList.Count),
+	}).Trace("Companylist returned.")
 	return
 }

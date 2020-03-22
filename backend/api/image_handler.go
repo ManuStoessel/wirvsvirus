@@ -10,13 +10,13 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func getUser(w http.ResponseWriter, r *http.Request) {
+func getImage(w http.ResponseWriter, r *http.Request) {
 	queries := mux.Vars(r)
 
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := &entity.User{}
+		data := &entity.Image{}
 		data = data.Read(id)
 		if data != nil {
 			responseBody, err := json.Marshal(data)
@@ -24,15 +24,15 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(`{"error": "error marshalling data"}`))
 				log.WithFields(log.Fields{
-					"user": fmt.Sprintf("%+v", data),
-				}).Error("Unable to marshal user data.")
+					"image": fmt.Sprintf("%+v", data),
+				}).Error("Unable to marshal image data.")
 				return
 			}
 			w.WriteHeader(http.StatusOK)
 			w.Write(responseBody)
 			log.WithFields(log.Fields{
 				"id": id,
-			}).Trace("User found.")
+			}).Trace("Image found.")
 			return
 		}
 	}
@@ -41,46 +41,46 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"error": "not found"}`))
 	log.WithFields(log.Fields{
 		"queries": fmt.Sprintf("%+v", queries),
-	}).Error("Unable to find user.")
+	}).Error("Unable to find image.")
 }
 
-func updateUser(w http.ResponseWriter, r *http.Request) {
+func updateImage(w http.ResponseWriter, r *http.Request) {
 	queries := mux.Vars(r)
 
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := &entity.User{}
+		data := &entity.Image{}
 		data = data.Read(id)
 		if data != nil {
-			userToBeUpdated := entity.User{}
-			err := json.NewDecoder(r.Body).Decode(&userToBeUpdated)
+			imageToBeUpdated := entity.Image{}
+			err := json.NewDecoder(r.Body).Decode(&imageToBeUpdated)
 			if err != nil {
 				w.WriteHeader(http.StatusBadRequest)
-				w.Write([]byte(`{"error": "could not parse body as user"}`))
+				w.Write([]byte(`{"error": "could not parse body as image"}`))
 				log.WithFields(log.Fields{
 					"body": fmt.Sprintf("%+v", r.Body),
-				}).Error("Unable to unmarshal body as user.")
+				}).Error("Unable to unmarshal body as image.")
 				return
 			}
 
-			userToBeUpdated.ID = id
-			userToBeUpdated.Update()
+			imageToBeUpdated.ID = id
+			imageToBeUpdated.Update()
 
-			responseBody, err := json.Marshal(userToBeUpdated)
+			responseBody, err := json.Marshal(imageToBeUpdated)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(`{"error": "error marshalling data"}`))
 				log.WithFields(log.Fields{
-					"user": fmt.Sprintf("%+v", data),
-				}).Error("Unable to marshal user data.")
+					"image": fmt.Sprintf("%+v", data),
+				}).Error("Unable to marshal image data.")
 				return
 			}
 			w.WriteHeader(http.StatusOK)
 			w.Write(responseBody)
 			log.WithFields(log.Fields{
 				"id": id,
-			}).Trace("User updated.")
+			}).Trace("image updated.")
 			return
 		}
 	}
@@ -89,16 +89,16 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"error": "not found"}`))
 	log.WithFields(log.Fields{
 		"queries": fmt.Sprintf("%+v", queries),
-	}).Error("Unable to find user.")
+	}).Error("Unable to find Image.")
 }
 
-func deleteUser(w http.ResponseWriter, r *http.Request) {
+func deleteImage(w http.ResponseWriter, r *http.Request) {
 	queries := mux.Vars(r)
 
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := &entity.User{}
+		data := &entity.Image{}
 		data = data.Read(id)
 		if data != nil {
 			data.Delete()
@@ -107,15 +107,15 @@ func deleteUser(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(`{"error": "error marshalling data"}`))
 				log.WithFields(log.Fields{
-					"user": fmt.Sprintf("%+v", data),
-				}).Error("Unable to marshal user data.")
+					"image": fmt.Sprintf("%+v", data),
+				}).Error("Unable to marshal image data.")
 				return
 			}
 			w.WriteHeader(http.StatusOK)
 			w.Write(responseBody)
 			log.WithFields(log.Fields{
 				"id": id,
-			}).Debug("User deleted.")
+			}).Debug("Image deleted.")
 			return
 		}
 	}
@@ -124,10 +124,10 @@ func deleteUser(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"error": "not found"}`))
 	log.WithFields(log.Fields{
 		"queries": fmt.Sprintf("%+v", queries),
-	}).Error("Unable to find user.")
+	}).Error("Unable to find image.")
 }
 
-func createUser(w http.ResponseWriter, r *http.Request) {
+func createImage(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	err := r.ParseForm()
 	if err != nil {
@@ -139,63 +139,63 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userToBeCreated := entity.User{}
+	imageToBeCreated := entity.Image{}
 
-	err = json.NewDecoder(r.Body).Decode(&userToBeCreated)
+	err = json.NewDecoder(r.Body).Decode(&imageToBeCreated)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(`{"error": "could not parse body as user"}`))
+		w.Write([]byte(`{"error": "could not parse body as image"}`))
 		log.WithFields(log.Fields{
 			"body": fmt.Sprintf("%+v", r.Body),
-		}).Error("Unable to unmarshal body as user.")
+		}).Error("Unable to unmarshal body as image.")
 		return
 	}
 
-	userToBeCreated.Create()
+	imageToBeCreated.Create()
 
-	response, err := json.Marshal(userToBeCreated)
+	response, err := json.Marshal(imageToBeCreated)
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`{"error": "could not marshal user"}`))
+		w.Write([]byte(`{"error": "could not marshal image"}`))
 		log.WithFields(log.Fields{
-			"user": fmt.Sprintf("%+v", userToBeCreated),
-		}).Error("Unable to marshal user as body.")
+			"image": fmt.Sprintf("%+v", imageToBeCreated),
+		}).Error("Unable to marshal image as body.")
 		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
 	w.Write(response)
 	log.WithFields(log.Fields{
-		"user": fmt.Sprintf("%+v", userToBeCreated),
-	}).Debug("User created.")
+		"image": fmt.Sprintf("%+v", imageToBeCreated),
+	}).Debug("Image created.")
 	return
 
 }
 
-func listUsers(w http.ResponseWriter, r *http.Request) {
+func listImages(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	userList := UserList{}
-	user := entity.User{}
+	imageList := ImageList{}
+	image := entity.Image{}
 
-	userList.Users = user.ListAll()
-	userList.Count = len(userList.Users)
+	imageList.Images = image.ListAll()
+	imageList.Count = len(imageList.Images)
 
-	responseBody, err := json.Marshal(userList)
+	responseBody, err := json.Marshal(imageList)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"error": "error marshalling data"}`))
 		log.WithFields(log.Fields{
-			"userlist": fmt.Sprintf("%+v", userList),
-		}).Error("Unable to marshal userlist data.")
+			"imagelist": fmt.Sprintf("%+v", imageList),
+		}).Error("Unable to marshal imagelist data.")
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
 	w.Write(responseBody)
 	log.WithFields(log.Fields{
-		"listlength": fmt.Sprintf("%+v", userList.Count),
-	}).Trace("Userlist returned.")
+		"listlength": fmt.Sprintf("%+v", imageList.Count),
+	}).Trace("Imagelist returned.")
 	return
 }

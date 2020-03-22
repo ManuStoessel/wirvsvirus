@@ -172,3 +172,30 @@ func createDonation(w http.ResponseWriter, r *http.Request) {
 	return
 
 }
+
+func listDonations(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	donationList := DonationList{}
+	donation := entity.Donation{}
+
+	donationList.Donations = donation.ListAll()
+	donationList.Count = len(donationList.Donations)
+
+	responseBody, err := json.Marshal(donationList)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(`{"error": "error marshalling data"}`))
+		log.WithFields(log.Fields{
+			"donationlist": fmt.Sprintf("%+v", donationList),
+		}).Error("Unable to marshal donationlist data.")
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(responseBody)
+	log.WithFields(log.Fields{
+		"listlength": fmt.Sprintf("%+v", donationList.Count),
+	}).Trace("Donationlist returned.")
+	return
+}
