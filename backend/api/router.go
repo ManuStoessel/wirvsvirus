@@ -44,6 +44,7 @@ func setupAPIRouter(r *mux.Router) {
 	api.HandleFunc("/companies/{id}", updateCompany).Methods(http.MethodPut)
 	api.HandleFunc("/companies/{id}", deleteCompany).Methods(http.MethodDelete)
 	api.HandleFunc("/companies", listCompanies).Methods(http.MethodGet)
+	api.HandleFunc("/companies/byTown/{name}", listCompaniesByTown).Methods(http.MethodGet) // this {name} should be the town name
 	api.HandleFunc("/company", createCompany).Methods(http.MethodPost)
 
 	// image api

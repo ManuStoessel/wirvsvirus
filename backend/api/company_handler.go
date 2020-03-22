@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/ManuStoessel/wirvsvirus/backend/entity"
 	"github.com/gorilla/mux"
@@ -198,4 +199,50 @@ func listCompanies(w http.ResponseWriter, r *http.Request) {
 		"listlength": fmt.Sprintf("%+v", companyList.Count),
 	}).Trace("Companylist returned.")
 	return
+}
+
+func listCompaniesByTown(w http.ResponseWriter, r *http.Request) {
+	queries := mux.Vars(r)
+
+	w.Header().Set("Content-Type", "application/json")
+
+	if name, ok := queries["name"]; ok {
+
+		name = strings.ToLower(strings.TrimSpace(name))
+
+		companyList := CompanyList{}
+		company := entity.Company{}
+
+		companies := company.ListAll()
+
+		for _, c := range companies {
+			if name == strings.ToLower(strings.TrimSpace(c.Town)) {
+				companyList.Companies = append(companyList.Companies, c)
+				companyList.Count++
+			}
+		}
+
+		responseBody, err := json.Marshal(companyList)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(`{"error": "error marshalling data"}`))
+			log.WithFields(log.Fields{
+				"companylist": fmt.Sprintf("%+v", companyList),
+			}).Error("Unable to marshal companylist data.")
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		w.Write(responseBody)
+		log.WithFields(log.Fields{
+			"listlength": fmt.Sprintf("%+v", companyList.Count),
+		}).Trace("Companylist returned.")
+		return
+	}
+
+	w.WriteHeader(http.StatusNotFound)
+	w.Write([]byte(`{"error": "not found"}`))
+	log.WithFields(log.Fields{
+		"queries": fmt.Sprintf("%+v", queries),
+	}).Error("Unable to find town.")
 }
