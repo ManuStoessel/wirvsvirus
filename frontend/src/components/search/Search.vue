@@ -1,37 +1,44 @@
 <template>
+
     <div class="searchBox">
-        <b-row class="searchRow">
-            <b-col>
-                Stadt:
-                <input ref="search1" v-model="city">
-            </b-col>
-            <b-col>
-                Branche:
-                <input ref="search2" v-model="business">
-            </b-col>
-        </b-row>
-        <b-row class="dealerShow">
-            <b-col v-for="(dealer, index) in filteredList" :key="index">
-                <b-card
-                        :title="dealer.companyName"
-                        :img-src="dealer.images"
-                        img-alt="Image"
-                        img-top
-                        tag="article"
-                        style="max-width: 20rem;"
-                        class="mb-2 dealer"
-                        @click="openModal(dealer)"
-                        v-b-modal.modal-4
-                >
-                    <b-card-text>
-                        {{dealer.shortDescription}}
-                    </b-card-text>
-                </b-card>
-            </b-col>
-        </b-row>
-        <b-modal hide-footer id="modal-4"  :title="selectedDealer.company">
-            <CompanyDetail :company="selectedDealer"></CompanyDetail>
-        </b-modal>
+            <b-row class="searchRow">
+                <b-col>
+                    Stadt:
+                    <input ref="search1" v-model="city">
+                </b-col>
+                <b-col>
+                    Branche:
+                    <input ref="search2" v-model="business">
+                </b-col>
+            </b-row>
+            <b-container class="suchergebnisse">
+                    <b-card-group deck>
+                    <b-row >
+                        <b-col sm="4" v-for="(dealer, index) in filteredList" :key="index">
+
+                                <b-card
+                                    img-alt="Image"
+                                    img-top
+                                    tag="article"
+                                    style="max-width: 20rem; min-height: 20rem; max-height: 20rem"
+                                    class="mb-2 dealer"
+                                    @click="openModal(dealer)"
+                                    v-b-modal.modal-4
+                            >
+                                    <b-card-title :title="dealer.companyName"> </b-card-title>
+                                    <b-card-img  :src="dealer.images"></b-card-img>
+                                <b-card-text>
+                                    {{dealer.shortDescription}}
+                                </b-card-text>
+                            </b-card>
+                        </b-col>
+                    </b-row>
+                </b-card-group>
+            </b-container>
+            <b-modal hide-footer id="modal-4"  :title="selectedDealer.company">
+                <CompanyDetail :company="selectedDealer"></CompanyDetail>
+            </b-modal>
+
     </div>
 </template>
 
@@ -130,5 +137,9 @@
 
     .searchRow{
 
+    }
+    .suchergebnisse{
+        position: relative;
+        top: 1rem
     }
 </style>

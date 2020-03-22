@@ -7,7 +7,7 @@
             <label for="defaultFormLoginPasswordEx" class="grey-text">Dein Passwort</label>
             <input type="password" id="defaultFormLoginPasswordEx" class="form-control"/>
             <div class="text-center mt-4">
-                <b-btn class="btn" type="submit" @click="send">Anmdelden</b-btn>
+                <b-btn class="btn" type="submit" @click="send">Anmelden</b-btn>
             </div>
         </form>
     </div>
@@ -19,10 +19,14 @@
         name: "Login",
         methods: {
             send: function(){
+                this.close();
                 this.$emit("login")
             },
             hashPassword: function(){
 
+            },
+            close: function () {
+                this.$bvModal.hide("modal-1")
             }
         },
         data(){
