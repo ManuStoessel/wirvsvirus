@@ -24,7 +24,7 @@ func getDonation(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(`{"error": "error marshalling data"}`))
 				log.WithFields(log.Fields{
-					"user": fmt.Sprintf("%+v", data),
+					"donation": fmt.Sprintf("%+v", data),
 				}).Error("Unable to marshal donation data.")
 				return
 			}
@@ -171,4 +171,76 @@ func createDonation(w http.ResponseWriter, r *http.Request) {
 	}).Debug("Donation created.")
 	return
 
+}
+
+func listDonations(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	donationList := DonationList{}
+	donation := entity.Donation{}
+
+	donationList.Donations = donation.ListAll()
+	donationList.Count = len(donationList.Donations)
+
+	responseBody, err := json.Marshal(donationList)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(`{"error": "error marshalling data"}`))
+		log.WithFields(log.Fields{
+			"donationlist": fmt.Sprintf("%+v", donationList),
+		}).Error("Unable to marshal donationlist data.")
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(responseBody)
+	log.WithFields(log.Fields{
+		"listlength": fmt.Sprintf("%+v", donationList.Count),
+	}).Trace("Donationlist returned.")
+	return
+}
+
+func listDonationsByReceiver(w http.ResponseWriter, r *http.Request) {
+	queries := mux.Vars(r)
+
+	w.Header().Set("Content-Type", "application/json")
+
+	if id, ok := queries["id"]; ok {
+		user := &entity.User{}
+		user = user.Read(id)
+		if user != nil {
+			donation := entity.Donation{}
+			donations := donation.ListAll()
+			resultList := DonationList{}
+
+			for _, d := range donations {
+				if d.ReceiverID == id {
+					resultList.Donations = append(resultList.Donations, d)
+					resultList.Count++
+				}
+			}
+
+			responseBody, err := json.Marshal(resultList)
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte(`{"error": "error marshalling data"}`))
+				log.WithFields(log.Fields{
+					"donationlist": fmt.Sprintf("%+v", resultList),
+				}).Error("Unable to marshal donation list.")
+				return
+			}
+			w.WriteHeader(http.StatusOK)
+			w.Write(responseBody)
+			log.WithFields(log.Fields{
+				"listlength": fmt.Sprintf("%+v", resultList.Count),
+			}).Trace("Donationlist returned.")
+			return
+		}
+	}
+
+	w.WriteHeader(http.StatusNotFound)
+	w.Write([]byte(`{"error": "not found"}`))
+	log.WithFields(log.Fields{
+		"queries": fmt.Sprintf("%+v", queries),
+	}).Error("Unable to find user.")
 }
