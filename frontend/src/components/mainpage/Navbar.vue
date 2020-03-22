@@ -88,5 +88,12 @@
     .navbar{
         width: 100%;
         margin:auto;
+        padding: 0;
+        height: 4rem;
+        margin-bottom: 1% !important;
+    }
+
+    .nav-item{
+
     }
 </style>

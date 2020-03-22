@@ -83,10 +83,22 @@
                             label-align-sm="right"
                             label-for="paypal"
                     >
-                        <b-form-input v-model="company.paypal" id="paypal" placeholder="AB2342JJPY5SS" required minlength="3" maxlength="500"></b-form-input>
+
+
+                        <b-input-group>
+                            <b-form-input v-model="company.paypal" id="paypal" placeholder="AB2342JJPY5SS" required minlength="3" maxlength="500"></b-form-input>
+                                <b-input-group-append>
+                                    <b-button v-b-modal.modal-helpPayPal>
+                                        <b-icon icon="question-fill"></b-icon>
+                                    </b-button>
+                                </b-input-group-append>
+                        </b-input-group>
+
+                        <!--
                         <b-input-group-append style="margin-top: 10px">
                             <b-button variant="outline-danger" v-b-modal.modal-helpPayPal> Button-ID erstellen </b-button>
                         </b-input-group-append>
+                        -->
                     </b-form-group>
 
                     <b-modal hide-footer id="modal-helpPayPal" size="xl" title="Button erstellen">
@@ -156,7 +168,6 @@
         components: {HelpPayPal},
         computed: {
             descriptionState() {
-
                 return this.company.description.length > 50 ? true : false
             },
             shortDescriptionState() {

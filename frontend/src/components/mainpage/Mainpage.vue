@@ -1,15 +1,23 @@
 <template>
     <div>
+
         <AboutUs></AboutUs>
         <b-row>
             <b-col>
                 <Ticker></Ticker>
             </b-col>
-            <b-col class="videoEmbed">
-                <b-embed
+            <b-col>
+
+            </b-col>
+        </b-row>
+        <hr>
+        <b-row>
+            <b-col>
+                <h3>Wer sind wir?</h3>
+                <b-embed class="videoEmbed"
                         type="iframe"
                         aspect="16by9"
-                        src="https://www.youtube.com/embed/xw4mcqIxmdY"
+                        src="https://www.youtube.com/embed/tqubXyCSWTQ"
                 ></b-embed>
             </b-col>
             <b-col class="fastDonation">
@@ -49,8 +57,12 @@
 </script>
 
 <style scoped>
+    h3{
+        text-align: left;
+    }
     .fastDonation{
-        margin: auto;
+        margin:auto;
+        margin-left: 5% !important;
     }
     .videoEmbed {
         margin: auto;

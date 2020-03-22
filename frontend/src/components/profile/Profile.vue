@@ -33,7 +33,7 @@
                             label="Handelsnummer:"
                             label-align-sm="right"
                             label-for="businessNr"
-                    >µµ
+                    >
                         <b-form-input v-model="company.businessNr" id="businessNr" placeholder="0123456789" required></b-form-input>
 
                     </b-form-group>
@@ -80,11 +80,21 @@
 
                     <b-form-group
                             label-cols-sm="3"
-                            label="PayPal Button ID:"
+                            label="PayPal Donate Button:"
                             label-align-sm="right"
                             label-for="paypal"
                     >
-                        <b-form-input v-model="company.payPalButtonId" id="paypal" placeholder="paypal.me/MeinUnternehmen" required minlength="3" maxlength="40"></b-form-input>
+
+
+                        <b-input-group>
+                            <b-form-input v-model="company.paypal" id="paypal" placeholder="AB2342JJPY5SS" required minlength="3" maxlength="500"></b-form-input>
+                            <b-input-group-append>
+                                <b-button v-b-modal.modal-helpPayPal>
+                                    <b-icon icon="question-fill"></b-icon>
+                                </b-button>
+                            </b-input-group-append>
+                        </b-input-group>
+
                     </b-form-group>
 
                     <b-form-group
@@ -134,12 +144,12 @@
 
                     <b-form-group
                             label-cols-sm="3"
-                            label="Lade ein Profilbild hoch::"
+                            label="Unternehmensfoto hochladen:"
                             label-align-sm="right"
                             label-for="image"
                     >
                         <div align="left" class="file-upload-form">
-                            <b-form-file id="image" no-drop=true :state="Boolean(company.images)" type="file" @change="previewImage" accept="image/*"></b-form-file>
+                            <b-form-file id="image" no-drop=true :state="Boolean(company.images)" placeholder="Keine Datei ausgewählt" type="file" @change="previewImage" accept="image/*"></b-form-file>
                         </div>
 
                         <div align="right" class="image-preview" v-if="company.images.length > 0">
@@ -150,7 +160,7 @@
                 </b-form-group>
 
                 <b-button-group style="float:right;">
-                    <b-button variant="success" @click="save(company)">Speichern</b-button>
+                    <b-button @click="save(company)">Speichern</b-button>
                 </b-button-group>
 
             </b-card>
