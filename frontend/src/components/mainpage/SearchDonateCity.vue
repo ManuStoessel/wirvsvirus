@@ -4,7 +4,7 @@
                 title="Unterstütze deine Stadt!!!"
                 tag="article"
                 style="max-width: 20rem;"
-                class="mb-2"
+                class="mb-2 mobileScale"
         >
             <b-card-text>
                 <b-row>
@@ -84,6 +84,19 @@
     .sendButton{
         margin-top: 4%;
         float: left;
+    }
+    mobileScale{
+        max-width: 60%;
+        text-align: left;
+        min-width: 60%
+    }
+
+    @media (min-width: 992px) {
+        mobileScale {
+            max-width: 100%;
+            text-align: left;
+            min-width: 60%
+        }
     }
 
 

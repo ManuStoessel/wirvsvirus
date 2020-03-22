@@ -11,8 +11,7 @@
                         img-alt="Image"
                         img-top
                         tag="article"
-                        class="mb-2 dealer"
-                        style="max-width: 60%; text-align: left"
+                        class="mb-2 dealer mobileScale"
                 >
                     <b-card-title title="Fabian Lauterbach"> </b-card-title>
                     <b-card-img :src="require('@/assets/LadenliebePerson.jpg')"></b-card-img>
@@ -25,12 +24,12 @@
         </b-row>
         <hr>
         <h3>Wer sind wir?</h3>
-        <b-row>
+        <b-row class="mobileScale">
             <b-col cols="7">
                 <b-embed class="videoEmbed"
                         type="iframe"
                         aspect="16by9"
-                        src="https://www.youtube.com/embed/tqubXyCSWTQ"
+                        src="https://www.youtube.com/embed/jhXq4NM27Rc"
                 ></b-embed>
             </b-col>
             <b-col class="fastDonation" cols="4">
@@ -80,4 +79,17 @@
         margin: auto;
         min-width: 40%;
     }
+    b-card {
+        max-width: 100%;
+        text-align: left;
+        min-width: 60%
+    }
+    @media (min-width: 992px) {
+        mobileScale {
+            max-width: 60%;
+            text-align: left;
+            min-width: 60%
+        }
+    }
+    
 </style>
