@@ -32,22 +32,6 @@ func main() {
 				DefaultText: "8080",
 			},
 			&cli.StringFlag{
-				Name:  "oauth2-clientid",
-				Value: "xxxxxxxx",
-				Usage: "Okta OAuth2 client ID to use.",
-			},
-			&cli.StringFlag{
-				Name:  "oauth2-issuer",
-				Value: "xxxxxxxx",
-				Usage: "Okta OAuth2 issuer to use.",
-			},
-			&cli.StringFlag{
-				Name:        "oauth2-verify",
-				Value:       "false",
-				Usage:       "Set to true if you want to use Okta Authorization token verification",
-				DefaultText: "false",
-			},
-			&cli.StringFlag{
 				Name:        "log-level",
 				Value:       "warn",
 				Usage:       "Set log level to trace, debug, info, warn, error or fatal",
