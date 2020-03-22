@@ -5,17 +5,17 @@ import (
 )
 
 type Company struct {
-	ID               string
-	UserID           string
-	User             User
-	BusinessNr       string
-	Name             string
-	Town             string
-	Street           string
-	Business         string
-	Description      string
-	ShortDescription string
-	PaypalButtonId   string
+	ID               string `json:"id"`
+	UserID           string `json:"userid"`
+	User             User   `json:"user"`
+	BusinessNr       string `json:"businessnr"`
+	Name             string `json:"name"`
+	Town             string `json:"town"`
+	Street           string `json:"street"`
+	Business         string `json:"business"`
+	Description      string `json:"description"`
+	ShortDescription string `json:"shortdescription"`
+	PaypalButtonId   string `json:"paypalbuttonid"`
 }
 
 func (company *Company) Create() {

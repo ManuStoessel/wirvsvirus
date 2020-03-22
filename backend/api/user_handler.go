@@ -53,7 +53,7 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 		data := &entity.User{}
 		data = data.Read(id)
 		if data != nil {
-			userToBeUpdated := User{}
+			userToBeUpdated := entity.User{}
 			err := json.NewDecoder(r.Body).Decode(&userToBeUpdated)
 			if err != nil {
 				w.WriteHeader(http.StatusBadRequest)
@@ -64,15 +64,10 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			userUpdated := &entity.User{
-				ID:       userToBeUpdated.ID,
-				Username: userToBeUpdated.Username,
-				Email:    userToBeUpdated.Email,
-			}
+			userToBeUpdated.ID = id
+			userToBeUpdated.Update()
 
-			userUpdated.Update()
-
-			responseBody, err := json.Marshal(data)
+			responseBody, err := json.Marshal(userToBeUpdated)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(`{"error": "error marshalling data"}`))
@@ -144,7 +139,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userToBeCreated := User{}
+	userToBeCreated := entity.User{}
 
 	err = json.NewDecoder(r.Body).Decode(&userToBeCreated)
 	if err != nil {
@@ -156,24 +151,15 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userCreated := &entity.User{
-		Username: userToBeCreated.Username,
-		Email:    userToBeCreated.Email,
-	}
+	userToBeCreated.Create()
 
-	userCreated.Create()
-
-	response, err := json.Marshal(User{
-		ID:       userCreated.ID,
-		Email:    userCreated.Email,
-		Username: userCreated.Username,
-	})
+	response, err := json.Marshal(userToBeCreated)
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"error": "could not marshal user"}`))
 		log.WithFields(log.Fields{
-			"user": fmt.Sprintf("%+v", userCreated),
+			"user": fmt.Sprintf("%+v", userToBeCreated),
 		}).Error("Unable to marshal user as body.")
 		return
 	}
@@ -181,7 +167,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	w.Write(response)
 	log.WithFields(log.Fields{
-		"user": fmt.Sprintf("%+v", userCreated),
+		"user": fmt.Sprintf("%+v", userToBeCreated),
 	}).Debug("User created.")
 	return
 
