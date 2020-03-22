@@ -161,7 +161,7 @@ export default {
           {
             email: "Heuracles@email",
             businessNr: 123456,
-            companyName: "Company 2",
+            companyName: "Kiosk an der Ecke",
             town: "Hamburg",
             street: "Straße 2",
             business: "Lebensmittel",
@@ -177,9 +177,9 @@ export default {
             companyName: "Die Haarprofis",
             town: "München",
             street: "Straße 2",
-            business: "Mode",
-            description: "Wir sind eine tolle Bar, welche gerne durch die Leute in dieser schwierigen Zeit unterstützt werden möchte",
-            shortDescription: "Kleine Bar",
+            business: "Friseur",
+            description: "Sind ein tolles sind aber echt verzweifelt.",
+            shortDescription: "Friseur",
             images: "https://cdn.pixabay.com/photo/2016/08/22/19/27/barbershop-1612726__340.jpg",
             payPalButtonId: "12sda4sadkjas123",
             comments: []
@@ -187,12 +187,12 @@ export default {
           {
             email: "Heuracles@email",
             businessNr: 123456,
-            companyName: "Company 2",
+            companyName: "Bio & Nah",
             town: "Hamburg",
             street: "Straße 2",
             business: "Lebensmittel",
-            description: "Wir sind eine tolle Bar, welche gerne durch die Leute in dieser schwierigen Zeit unterstützt werden möchte",
-            shortDescription: "Kleine Bar",
+            description: "In unserem Biomarkt sind die Umsätze rapide gesunken, bitte helt uns.",
+            shortDescription: "Kleine Laden",
             images: "https://cdn.pixabay.com/photo/2014/09/04/11/03/supermarket-435452__340.jpg",
             payPalButtonId: "12sda4sadkjas123",
             comments: []

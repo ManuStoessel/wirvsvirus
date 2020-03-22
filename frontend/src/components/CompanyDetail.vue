@@ -25,7 +25,6 @@
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                     <input type="hidden" name="cmd" value="_s-xclick" />
                     <input type="hidden" name="hosted_button_id" :value="company.payPalButtonId" />
-
                     <input type="image" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0"
                            name="submit" title="PayPal - Der sichere, einfache Weg online zu bezahlen!" alt="Mit dem PayPal Button spenden"
                            v-b-modal.modal-comment>
