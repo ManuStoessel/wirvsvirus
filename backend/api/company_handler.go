@@ -4,19 +4,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/ManuStoessel/wirvsvirus/backend/entity"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 )
 
-func getDonation(w http.ResponseWriter, r *http.Request) {
+func getCompany(w http.ResponseWriter, r *http.Request) {
 	queries := mux.Vars(r)
 
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := &entity.Donation{}
+		data := &entity.Company{}
 		data = data.Read(id)
 		if data != nil {
 			responseBody, err := json.Marshal(data)
@@ -24,15 +25,15 @@ func getDonation(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(`{"error": "error marshalling data"}`))
 				log.WithFields(log.Fields{
-					"donation": fmt.Sprintf("%+v", data),
-				}).Error("Unable to marshal donation data.")
+					"company": fmt.Sprintf("%+v", data),
+				}).Error("Unable to marshal company data.")
 				return
 			}
 			w.WriteHeader(http.StatusOK)
 			w.Write(responseBody)
 			log.WithFields(log.Fields{
 				"id": id,
-			}).Trace("Donation found.")
+			}).Trace("Company found.")
 			return
 		}
 	}
@@ -41,46 +42,46 @@ func getDonation(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"error": "not found"}`))
 	log.WithFields(log.Fields{
 		"queries": fmt.Sprintf("%+v", queries),
-	}).Error("Unable to find donation.")
+	}).Error("Unable to find company.")
 }
 
-func updateDonation(w http.ResponseWriter, r *http.Request) {
+func updateCompany(w http.ResponseWriter, r *http.Request) {
 	queries := mux.Vars(r)
 
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := &entity.Donation{}
+		data := &entity.Company{}
 		data = data.Read(id)
 		if data != nil {
-			donationToBeUpdated := entity.Donation{ID: id}
-			err := json.NewDecoder(r.Body).Decode(&donationToBeUpdated)
+			companyToBeUpdated := entity.Company{}
+			err := json.NewDecoder(r.Body).Decode(&companyToBeUpdated)
 			if err != nil {
 				w.WriteHeader(http.StatusBadRequest)
-				w.Write([]byte(`{"error": "could not parse body as donation"}`))
+				w.Write([]byte(`{"error": "could not parse body as company"}`))
 				log.WithFields(log.Fields{
 					"body": fmt.Sprintf("%+v", r.Body),
-				}).Error("Unable to unmarshal body as donation.")
+				}).Error("Unable to unmarshal body as company.")
 				return
 			}
 
-			donationToBeUpdated.ID = id
-			donationToBeUpdated.Update()
+			companyToBeUpdated.ID = id
+			companyToBeUpdated.Update()
 
-			responseBody, err := json.Marshal(donationToBeUpdated)
+			responseBody, err := json.Marshal(companyToBeUpdated)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(`{"error": "error marshalling data"}`))
 				log.WithFields(log.Fields{
-					"donation": fmt.Sprintf("%+v", data),
-				}).Error("Unable to marshal donation data.")
+					"company": fmt.Sprintf("%+v", data),
+				}).Error("Unable to marshal company data.")
 				return
 			}
 			w.WriteHeader(http.StatusOK)
 			w.Write(responseBody)
 			log.WithFields(log.Fields{
 				"id": id,
-			}).Trace("Donation updated.")
+			}).Trace("Company updated.")
 			return
 		}
 	}
@@ -89,16 +90,16 @@ func updateDonation(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"error": "not found"}`))
 	log.WithFields(log.Fields{
 		"queries": fmt.Sprintf("%+v", queries),
-	}).Error("Unable to find user.")
+	}).Error("Unable to find company.")
 }
 
-func deleteDonation(w http.ResponseWriter, r *http.Request) {
+func deleteCompany(w http.ResponseWriter, r *http.Request) {
 	queries := mux.Vars(r)
 
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := &entity.Donation{}
+		data := &entity.Company{}
 		data = data.Read(id)
 		if data != nil {
 			data.Delete()
@@ -107,15 +108,15 @@ func deleteDonation(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(`{"error": "error marshalling data"}`))
 				log.WithFields(log.Fields{
-					"donation": fmt.Sprintf("%+v", data),
-				}).Error("Unable to marshal donation data.")
+					"company": fmt.Sprintf("%+v", data),
+				}).Error("Unable to marshal company data.")
 				return
 			}
 			w.WriteHeader(http.StatusOK)
 			w.Write(responseBody)
 			log.WithFields(log.Fields{
 				"id": id,
-			}).Debug("Donation deleted.")
+			}).Debug("Company deleted.")
 			return
 		}
 	}
@@ -124,10 +125,10 @@ func deleteDonation(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"error": "not found"}`))
 	log.WithFields(log.Fields{
 		"queries": fmt.Sprintf("%+v", queries),
-	}).Error("Unable to find donation.")
+	}).Error("Unable to find company.")
 }
 
-func createDonation(w http.ResponseWriter, r *http.Request) {
+func createCompany(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	err := r.ParseForm()
 	if err != nil {
@@ -139,108 +140,109 @@ func createDonation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	donationToBeCreated := entity.Donation{}
+	companyToBeCreated := entity.Company{}
 
-	err = json.NewDecoder(r.Body).Decode(&donationToBeCreated)
+	err = json.NewDecoder(r.Body).Decode(&companyToBeCreated)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(`{"error": "could not parse body as donation"}`))
+		w.Write([]byte(`{"error": "could not parse body as company"}`))
 		log.WithFields(log.Fields{
 			"body": fmt.Sprintf("%+v", r.Body),
-		}).Error("Unable to unmarshal body as donation.")
+		}).Error("Unable to unmarshal body as company.")
 		return
 	}
 
-	donationToBeCreated.Create()
+	companyToBeCreated.Create()
 
-	response, err := json.Marshal(donationToBeCreated)
+	response, err := json.Marshal(companyToBeCreated)
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`{"error": "could not marshal donation"}`))
+		w.Write([]byte(`{"error": "could not marshal company"}`))
 		log.WithFields(log.Fields{
-			"donation": fmt.Sprintf("%+v", donationToBeCreated),
-		}).Error("Unable to marshal donation as body.")
+			"company": fmt.Sprintf("%+v", companyToBeCreated),
+		}).Error("Unable to marshal company as body.")
 		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
 	w.Write(response)
 	log.WithFields(log.Fields{
-		"donation": fmt.Sprintf("%+v", donationToBeCreated),
-	}).Debug("Donation created.")
+		"company": fmt.Sprintf("%+v", companyToBeCreated),
+	}).Debug("Company created.")
 	return
 
 }
 
-func listDonations(w http.ResponseWriter, r *http.Request) {
+func listCompanies(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	donationList := DonationList{}
-	donation := entity.Donation{}
+	companyList := CompanyList{}
+	company := entity.Company{}
 
-	donationList.Donations = donation.ListAll()
-	donationList.Count = len(donationList.Donations)
+	companyList.Companies = company.ListAll()
+	companyList.Count = len(companyList.Companies)
 
-	responseBody, err := json.Marshal(donationList)
+	responseBody, err := json.Marshal(companyList)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"error": "error marshalling data"}`))
 		log.WithFields(log.Fields{
-			"donationlist": fmt.Sprintf("%+v", donationList),
-		}).Error("Unable to marshal donationlist data.")
+			"companylist": fmt.Sprintf("%+v", companyList),
+		}).Error("Unable to marshal companylist data.")
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
 	w.Write(responseBody)
 	log.WithFields(log.Fields{
-		"listlength": fmt.Sprintf("%+v", donationList.Count),
-	}).Trace("Donationlist returned.")
+		"listlength": fmt.Sprintf("%+v", companyList.Count),
+	}).Trace("Companylist returned.")
 	return
 }
 
-func listDonationsByReceiver(w http.ResponseWriter, r *http.Request) {
+func listCompaniesByTown(w http.ResponseWriter, r *http.Request) {
 	queries := mux.Vars(r)
 
 	w.Header().Set("Content-Type", "application/json")
 
-	if id, ok := queries["id"]; ok {
-		user := &entity.User{}
-		user = user.Read(id)
-		if user != nil {
-			donation := entity.Donation{}
-			donations := donation.ListAll()
-			resultList := DonationList{}
+	if name, ok := queries["name"]; ok {
 
-			for _, d := range donations {
-				if d.ReceiverID == id {
-					resultList.Donations = append(resultList.Donations, d)
-					resultList.Count++
-				}
-			}
+		name = strings.ToLower(strings.TrimSpace(name))
 
-			responseBody, err := json.Marshal(resultList)
-			if err != nil {
-				w.WriteHeader(http.StatusInternalServerError)
-				w.Write([]byte(`{"error": "error marshalling data"}`))
-				log.WithFields(log.Fields{
-					"donationlist": fmt.Sprintf("%+v", resultList),
-				}).Error("Unable to marshal donation list.")
-				return
+		companyList := CompanyList{}
+		company := entity.Company{}
+
+		companies := company.ListAll()
+
+		for _, c := range companies {
+			if name == strings.ToLower(strings.TrimSpace(c.Town)) {
+				companyList.Companies = append(companyList.Companies, c)
+				companyList.Count++
 			}
-			w.WriteHeader(http.StatusOK)
-			w.Write(responseBody)
+		}
+
+		responseBody, err := json.Marshal(companyList)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(`{"error": "error marshalling data"}`))
 			log.WithFields(log.Fields{
-				"listlength": fmt.Sprintf("%+v", resultList.Count),
-			}).Trace("Donationlist returned.")
+				"companylist": fmt.Sprintf("%+v", companyList),
+			}).Error("Unable to marshal companylist data.")
 			return
 		}
+
+		w.WriteHeader(http.StatusOK)
+		w.Write(responseBody)
+		log.WithFields(log.Fields{
+			"listlength": fmt.Sprintf("%+v", companyList.Count),
+		}).Trace("Companylist returned.")
+		return
 	}
 
 	w.WriteHeader(http.StatusNotFound)
 	w.Write([]byte(`{"error": "not found"}`))
 	log.WithFields(log.Fields{
 		"queries": fmt.Sprintf("%+v", queries),
-	}).Error("Unable to find user.")
+	}).Error("Unable to find town.")
 }

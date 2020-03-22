@@ -18,8 +18,3 @@ func loggingMiddleware(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
-
-type oauth2provider struct {
-	Issuer   string
-	ClientID string
-}
