@@ -35,9 +35,9 @@
             <div>
                 <p style="text-align: left">
                     Als Stadtretter kannst Du jederzeit deinen Lieblings-Laden direkt unterstützen.
-                    Mit einer Sammelspende kannst auch alle Läden vor Ort bei Dir unterstützen.
-                    Dafür brauchen wir Jemanden, dem sowohl die Bürger der Stadt als auch das Kleingewerbe, die Einzelhändler, Cafébesitzer und Dienstleister vertrauen.
-                    Lokale Partner wie Gewerbevereine unterstützen uns dabei die Spenden, die an eine ganze Stadt oder Branche gehen, an Diejenigen zu verteilen, die es am Härtesten getroffen hat.
+                    Mit einer Sammelspende kannst Du auch mehrere Läden vor Ort unterstützen.
+                    Gewerbevereine sind hier Bindeglied und vertrauensvolle Partner.
+                    Sie unterstützen uns dabei Spenden an eine ganze Stadt oder Branche an diejenigen zu verteilen, die es am härtesten getroffen hat.
                 </p>
             </div>
         </div>
