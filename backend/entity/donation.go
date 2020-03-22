@@ -42,3 +42,10 @@ func (donation *Donation) ReadByUser(userID string) []Donation {
 
 	return donations
 }
+
+func (donation *Donation) ListAll() []Donation {
+	var donations []Donation
+	db.Find(&donations)
+
+	return donations
+}

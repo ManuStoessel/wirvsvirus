@@ -40,3 +40,10 @@ func (image *Image) ReadByComapny(companyID string) []Image {
 
 	return images
 }
+
+func (image *Image) ListAll() []Image {
+	var images []Image
+	db.Find(&images)
+
+	return images
+}
