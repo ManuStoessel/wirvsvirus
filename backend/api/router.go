@@ -7,7 +7,7 @@ import (
 )
 
 // StartRouter will start the HTTP API server
-func StartRouter(verifyToken bool, port, clientid, issuer string) error {
+func StartRouter(port string) error {
 	router := mux.NewRouter().StrictSlash(true)
 
 	// definition of global middlewares to use

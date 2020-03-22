@@ -4,6 +4,10 @@ import (
 	"testing"
 )
 
+func init() {
+	Initialize("")
+}
+
 func TestImage(t *testing.T) {
 	company := &Company{}
 	company.Create()

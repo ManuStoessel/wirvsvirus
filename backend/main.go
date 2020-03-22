@@ -4,9 +4,12 @@ import (
 	"os"
 
 	"github.com/ManuStoessel/wirvsvirus/backend/api"
+	"github.com/ManuStoessel/wirvsvirus/backend/entity"
 	log "github.com/sirupsen/logrus"
 	cli "github.com/urfave/cli/v2"
 )
+
+var dbString string
 
 func init() {
 	// Log as JSON instead of the default ASCII formatter.
@@ -37,6 +40,12 @@ func main() {
 				Usage:       "Set log level to trace, debug, info, warn, error or fatal",
 				DefaultText: "warn",
 			},
+			&cli.StringFlag{
+				Name:        "db",
+				Value:       "root:my-secret-pw@/wirvsvirus?charset=utf8&parseTime=True&loc=Local",
+				Usage:       "Set db connection",
+				DefaultText: "root:my-secret-pw@/wirvsvirus?charset=utf8&parseTime=True&loc=Local",
+			},
 		},
 		Action: Run,
 	}
@@ -57,5 +66,8 @@ func Run(c *cli.Context) error {
 		log.SetLevel(loglvl)
 	}
 
-	return api.StartRouter(c.Bool("oauth2-verify"), c.String("port"), c.String("oauth2-clientid"), c.String("oauth2-issuer"))
+	// init db layer
+	entity.Initialize(c.String("db"))
+
+	return api.StartRouter(c.String("port"))
 }
