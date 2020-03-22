@@ -1,30 +1,27 @@
-package donation
+package entity
 
 import (
 	"testing"
-
-	"github.com/ManuStoessel/wirvsvirus/backend/user"
-	User "github.com/ManuStoessel/wirvsvirus/backend/user"
 )
 
-var testEmail string = "info@alexanderwagner.eu"
-var testName string = "Alex"
+func TestDonation(t *testing.T) {
+	var testEmail string = "info@alexanderwagner.eu"
 
-func Test(t *testing.T) {
-	user := &user.User{Username: testName, Email: testEmail}
-	User.Create(user)
+	user := &User{Email: testEmail}
+	user.Create()
 
 	userID := user.ID
 
 	donation := &Donation{ReceiverID: userID, Amount: 10.00}
 	donation2 := &Donation{ReceiverID: userID, Amount: 20.00}
 
-	Create(donation)
-	Create(donation2)
+	donation.Create()
+	donation2.Create()
 
 	donationID := donation.ID
 
-	readDonation := Read(donationID)
+	readDonation := &Donation{}
+	readDonation = readDonation.Read(donationID)
 
 	if readDonation.ID != donation.ID {
 		t.Errorf("Read donation should be equal created donation")
@@ -32,23 +29,23 @@ func Test(t *testing.T) {
 
 	donation.Amount = 15.00
 
-	Update(donation)
+	donation.Update()
 
-	readDonation = Read(donationID)
+	readDonation = readDonation.Read(donationID)
 
 	if readDonation.Amount != 15.00 {
 		t.Errorf("Amount should be changed")
 	}
 
-	donations := ReadByUser(userID)
+	donations := readDonation.ReadByUser(userID)
 
 	if len(donations) != 2 {
 		t.Errorf("There should be 2 donations")
 	}
 
-	Delete(donation)
+	donation.Delete()
 
-	readDonation = Read(donationID)
+	readDonation = readDonation.Read(donationID)
 
 	if readDonation.ID != "" {
 		t.Errorf("Donation should not exist anymore")

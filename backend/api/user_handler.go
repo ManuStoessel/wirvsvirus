@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/ManuStoessel/wirvsvirus/backend/user"
+	"github.com/ManuStoessel/wirvsvirus/backend/entity"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 )
@@ -16,7 +16,8 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := user.Read(id)
+		data := &entity.User{}
+		data = data.Read(id)
 		if data != nil {
 			responseBody, err := json.Marshal(data)
 			if err != nil {
@@ -49,7 +50,8 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := user.Read(id)
+		data := &entity.User{}
+		data = data.Read(id)
 		if data != nil {
 			userToBeUpdated := User{}
 			err := json.NewDecoder(r.Body).Decode(&userToBeUpdated)
@@ -62,13 +64,13 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			userUpdated := &user.User{
+			userUpdated := &entity.User{
 				ID:       userToBeUpdated.ID,
 				Username: userToBeUpdated.Username,
 				Email:    userToBeUpdated.Email,
 			}
 
-			user.Update(userUpdated)
+			userUpdated.Update()
 
 			responseBody, err := json.Marshal(data)
 			if err != nil {
@@ -101,9 +103,10 @@ func deleteUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if id, ok := queries["id"]; ok {
-		data := user.Read(id)
+		data := &entity.User{}
+		data = data.Read(id)
 		if data != nil {
-			user.Delete(data)
+			data.Delete()
 			responseBody, err := json.Marshal(data)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
@@ -153,12 +156,12 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userCreated := &user.User{
+	userCreated := &entity.User{
 		Username: userToBeCreated.Username,
 		Email:    userToBeCreated.Email,
 	}
 
-	user.Create(userCreated)
+	userCreated.Create()
 
 	response, err := json.Marshal(User{
 		ID:       userCreated.ID,
