@@ -53,7 +53,7 @@ func updateDonation(w http.ResponseWriter, r *http.Request) {
 		data := &entity.Donation{}
 		data = data.Read(id)
 		if data != nil {
-			donationToBeUpdated := Donation{}
+			donationToBeUpdated := entity.Donation{ID: id}
 			err := json.NewDecoder(r.Body).Decode(&donationToBeUpdated)
 			if err != nil {
 				w.WriteHeader(http.StatusBadRequest)
@@ -64,16 +64,10 @@ func updateDonation(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			donationUpdated := &entity.Donation{
-				ID:         donationToBeUpdated.ID,
-				ReceiverID: donationToBeUpdated.ReceiverID,
-				Receiver:   donationToBeUpdated.Receiver,
-				Amount:     donationToBeUpdated.Amount,
-			}
+			donationToBeUpdated.ID = id
+			donationToBeUpdated.Update()
 
-			donationUpdated.Update()
-
-			responseBody, err := json.Marshal(data)
+			responseBody, err := json.Marshal(donationToBeUpdated)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(`{"error": "error marshalling data"}`))
@@ -145,7 +139,7 @@ func createDonation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	donationToBeCreated := Donation{}
+	donationToBeCreated := entity.Donation{}
 
 	err = json.NewDecoder(r.Body).Decode(&donationToBeCreated)
 	if err != nil {
@@ -157,26 +151,15 @@ func createDonation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	donationCreated := &entity.Donation{
-		ReceiverID: donationToBeCreated.ReceiverID,
-		Receiver:   donationToBeCreated.Receiver,
-		Amount:     donationToBeCreated.Amount,
-	}
+	donationToBeCreated.Create()
 
-	donationCreated.Create()
-
-	response, err := json.Marshal(Donation{
-		ID:         donationCreated.ID,
-		ReceiverID: donationCreated.ReceiverID,
-		Receiver:   donationCreated.Receiver,
-		Amount:     donationCreated.Amount,
-	})
+	response, err := json.Marshal(donationToBeCreated)
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"error": "could not marshal donation"}`))
 		log.WithFields(log.Fields{
-			"donation": fmt.Sprintf("%+v", donationCreated),
+			"donation": fmt.Sprintf("%+v", donationToBeCreated),
 		}).Error("Unable to marshal donation as body.")
 		return
 	}
@@ -184,7 +167,7 @@ func createDonation(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	w.Write(response)
 	log.WithFields(log.Fields{
-		"donation": fmt.Sprintf("%+v", donationCreated),
+		"donation": fmt.Sprintf("%+v", donationToBeCreated),
 	}).Debug("Donation created.")
 	return
 

@@ -4,10 +4,10 @@ import "github.com/google/uuid"
 
 // Image type
 type Image struct {
-	ID        string
-	CompanyID string
-	Company   Company
-	URL       string
+	ID        string  `json:"id"`
+	CompanyID string  `json:"companyid"`
+	Company   Company `json:"company"`
+	URL       string  `json:"url"`
 }
 
 func (image *Image) Create() {

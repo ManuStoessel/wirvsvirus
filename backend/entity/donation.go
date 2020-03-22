@@ -6,10 +6,10 @@ import (
 
 // Donation type
 type Donation struct {
-	ID         string
-	ReceiverID string
-	Receiver   User
-	Amount     float32
+	ID         string  `json:"id"`
+	ReceiverID string  `json:"receiverid"`
+	Receiver   User    `json:"receiver"`
+	Amount     float32 `json:"amount"`
 }
 
 func (donation *Donation) Create() {

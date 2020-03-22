@@ -3,10 +3,10 @@ package entity
 import "github.com/google/uuid"
 
 type User struct {
-	ID       string
-	Email    string
-	Password string
-	ImageURL string
+	ID       string `json:"id"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	ImageURL string `json:"imageurl"`
 }
 
 func (user *User) Create() {
