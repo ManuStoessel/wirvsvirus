@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <h1>Deine lokalen Geschäfte</h1>
+        <h2 style="text-align: left">Deine lokalen Geschäfte</h2>
 
         <b-row class="dealerShow">
 
@@ -12,7 +12,6 @@
                         img-alt="Image"
                         img-top
                         tag="article"
-                        style="max-width: 20rem; min-height: 20rem; max-height: 20rem"
                         class="mb-2 localDealer"
                         @click="openModal(dealer)"
                         v-b-modal.modal-3
@@ -30,7 +29,7 @@
 
         </b-row>
 
-        <b-modal hide-footer id="modal-3"  :title="selectedDealer.company">
+        <b-modal hide-footer id="modal-3" size="xl" :title="selectedDealer.company">
             <CompanyDetail :company="selectedDealer"></CompanyDetail>
         </b-modal>
 

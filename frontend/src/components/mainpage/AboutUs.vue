@@ -13,9 +13,6 @@
                         <p>Sichere Abwicklung über PayPal.</p>
                     </div>
                 </b-col>
-                <b-col class="aboutUsImage">
-                    <!--<b-img src="https://wirvsvirushackathon.org/wp-content/uploads/2020/03/Hackathon_slogan_wei%C3%9F.png" fluid></b-img> -->
-                </b-col>
             </b-row>
         </div>
         <div class="aboutUsAbout">
@@ -35,7 +32,6 @@
         <hr>
 
     </div>
-
 </template>
 
 <script>

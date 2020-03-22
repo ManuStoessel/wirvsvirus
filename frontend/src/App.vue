@@ -4,7 +4,7 @@
       <img src="@/assets/Logo_Projekt_01.png" class="headerImage"/>
       <Navbar @changeView="changeView"></Navbar>
       <component v-bind:is="comp" :dealers="users" :company="user"></component>
-      <Footer></Footer>
+
     </b-container>
 
   </div>
@@ -205,7 +205,7 @@ export default {
             business: "Bar",
             description: "Wir sind eine tolle Bar, welche gerne durch die Leute in dieser schwierigen Zeit unterstützt werden möchte",
             shortDescription: "Kleine Bar innerhalb von Irgendwo",
-            images: "https://i1.wp.com/sixstarhotels.org/wp-content/uploads/2017/10/Bar-front-No-copyright-e1507122767368.jpg?w=2160&ssl=1",
+            images: "https://cdn.pixabay.com/photo/2016/11/21/16/02/bar-1846137_960_720.jpg",
             payPalButtonId: "1234sadkjas123",
             comments: []
           },
@@ -264,13 +264,13 @@ export default {
           {
             email: "email1@email",
             businessNr: 123456,
-            companyName: "Die Trinker",
+            companyName: "Die Schnapsidee",
             town: "Hannover",
             street: "Straße 1",
             business: "Bar",
             description: "Wir sind eine tolle Bar, welche gerne durch die Leute in dieser schwierigen Zeit unterstützt werden möchte",
             shortDescription: "Kleine Bar innerhalb von Irgendwo",
-            images: "https://i1.wp.com/sixstarhotels.org/wp-content/uploads/2017/10/Bar-front-No-copyright-e1507122767368.jpg?w=2160&ssl=1",
+            images: "https://cdn.pixabay.com/photo/2015/03/26/09/54/restaurant-690569__340.jpg",
             payPalButtonId: "1234sadkjas123",
             comments: []
           },
