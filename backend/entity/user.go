@@ -32,3 +32,10 @@ func (user *User) Read(id string) *User {
 
 	return user
 }
+
+func (user *User) ListAll() []User {
+	var users []User
+	db.Find(&users)
+
+	return users
+}

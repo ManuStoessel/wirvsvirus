@@ -18,6 +18,13 @@ type Company struct {
 	PaypalButtonId   string `json:"paypalbuttonid"`
 }
 
+func (company *Company) ListAll() []Company {
+	var companies []Company
+	db.Find(&companies)
+
+	return companies
+}
+
 func (company *Company) Create() {
 	if company.ID == "" {
 		company.ID = uuid.New().String()

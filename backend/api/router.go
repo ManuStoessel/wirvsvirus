@@ -7,22 +7,11 @@ import (
 )
 
 // StartRouter will start the HTTP API server
-func StartRouter(verifyToken bool, port, clientid, issuer string) error {
+func StartRouter(port string) error {
 	router := mux.NewRouter().StrictSlash(true)
 
 	// definition of global middlewares to use
 	router.Use(loggingMiddleware)
-
-	// only use the token verification middleware if the oauth2-verify flag is set to true
-	if verifyToken {
-
-		o := oauth2provider{
-			ClientID: clientid,
-			Issuer:   issuer,
-		}
-
-		router.Use(o.verificationMiddleware)
-	}
 
 	router.HandleFunc("/", homeLink)
 

@@ -13,12 +13,18 @@ type Entity interface {
 }
 
 var db *gorm.DB
+var dbStringDefault string = "root:my-secret-pw@/wirvsvirus?charset=utf8&parseTime=True&loc=Local"
 
 // Question: The db should be closed some time, or not?
-func init() {
+func Initialize(dbString string) {
+	if dbString == "" {
+		dbString = dbStringDefault
+	}
+
 	if db == nil {
 		// TODO: Should be a one liner
-		dbobject, err := gorm.Open("mysql", "root:my-secret-pw@/wirvsvirus?charset=utf8&parseTime=True&loc=Local")
+		//dbobject, err := gorm.Open("mysql", )
+		dbobject, err := gorm.Open("mysql", dbString)
 		db = dbobject
 
 		if err != nil {
