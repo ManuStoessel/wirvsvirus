@@ -13,7 +13,7 @@
                             <b-icon-x-circle-fill align="right"></b-icon-x-circle-fill>
                         </b-input>
 
-                        <b-button class="sendButton">Jetzt helfen</b-button>
+                        <b-button variant="danger" class="sendButton">Jetzt helfen</b-button>
                     </b-col>
                 </b-row>
                 <b-row>

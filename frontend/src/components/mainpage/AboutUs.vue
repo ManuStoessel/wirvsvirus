@@ -29,6 +29,18 @@
                 hierbei, wer von der Krise am meisten betroffen ist.</p>
             <p>Nähere Informationen zu unseren Partnern findest du in der entsprechenden Rubrik.</p>
         </div>
+
+        <div class="">
+            <h2 style="text-align: left">Unsere Partner</h2>
+            <div>
+                <p style="text-align: left">
+                    Als Stadtretter kannst Du jederzeit deinen Lieblings-Laden direkt unterstützen.
+                    Mit einer Sammelspende kannst auch alle Läden vor Ort bei Dir unterstützen.
+                    Dafür brauchen wir Jemanden, dem sowohl die Bürger der Stadt als auch das Kleingewerbe, die Einzelhändler, Cafébesitzer und Dienstleister vertrauen.
+                    Lokale Partner wie Gewerbevereine unterstützen uns dabei die Spenden, die an eine ganze Stadt oder Branche gehen, an Diejenigen zu verteilen, die es am Härtesten getroffen hat.
+                </p>
+            </div>
+        </div>
         <hr>
 
     </div>
@@ -41,8 +53,10 @@
 </script>
 
 <style scoped>
+
+
     .aboutUs{
-        background-image: url('../../assets/LadenLiebeLogo.png');
+        background-image: url('../../assets/LadenLiebeLogo_1.png');
         background-color: #cccccc;
         height: 500px;
         background-position: center;
@@ -72,5 +86,11 @@
 
     .video{
         text-align: left;
+    }
+
+    @media (min-width: 992px) {
+        .aboutUs {
+            background-image: url('../../assets/LadenLiebeLogo_2.png');
+        }
     }
 </style>
