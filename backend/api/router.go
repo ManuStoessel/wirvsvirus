@@ -36,6 +36,7 @@ func setupAPIRouter(r *mux.Router) {
 	api.HandleFunc("/donations/{id}", updateDonation).Methods(http.MethodPut)
 	api.HandleFunc("/donations/{id}", deleteDonation).Methods(http.MethodDelete)
 	api.HandleFunc("/donations", listDonations).Methods(http.MethodGet)
+	api.HandleFunc("/donations/byReceiver/{id}", listDonationsByReceiver).Methods(http.MethodGet) // this {id} is meant to be an existing User ID
 	api.HandleFunc("/donation", createDonation).Methods(http.MethodPost)
 
 	// company api
