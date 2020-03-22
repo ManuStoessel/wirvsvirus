@@ -225,8 +225,8 @@ func listDonationsByReceiver(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte(`{"error": "error marshalling data"}`))
 				log.WithFields(log.Fields{
-					"donationlist": fmt.Sprintf("%+v", data),
-				}).Error("Unable to marshal donation data.")
+					"donationlist": fmt.Sprintf("%+v", resultList),
+				}).Error("Unable to marshal donation list.")
 				return
 			}
 			w.WriteHeader(http.StatusOK)
