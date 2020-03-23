@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <h2 style="text-align: left">Deine lokalen Geschäfte</h2>
+        <h2>Deine lokalen Geschäfte</h2>
 
         <b-row class="dealerShow">
 

@@ -11,7 +11,7 @@
                         img-alt="Image"
                         img-top
                         tag="article"
-                        class="mb-2 dealer mobileScale"
+                        class=""
                 >
                     <b-card-title title="Fabian Lauterbach"> </b-card-title>
                     <b-card-img :src="require('@/assets/LadenliebePerson.jpg')"></b-card-img>
@@ -21,23 +21,24 @@
                     </b-card-text>
                 </b-card>
             </b-col>
+            <b-col class="">
+                <SearchDonateCity></SearchDonateCity>
+            </b-col>
         </b-row>
-        <hr>
-        <h3>Wer sind wir?</h3>
-        <b-row class="mobileScale">
-            <b-col cols="7">
+        <p style="margin-top: 4em"></p>
+        <h2 style="text-align: left">Wer sind wir?</h2>
+        <b-row class="">
+            <b-col>
                 <b-embed class="videoEmbed"
                         type="iframe"
                         aspect="16by9"
                         src="https://www.youtube.com/embed/jhXq4NM27Rc"
                 ></b-embed>
             </b-col>
-            <b-col class="fastDonation" cols="4">
-                <SearchDonateCity></SearchDonateCity>
-            </b-col>
         </b-row>
-        <hr>
+        <p style="margin-top: 6em"></p>
         <LocalDealers :dealers="dealers"></LocalDealers>
+
     </div>
 </template>
 
@@ -46,8 +47,6 @@
     import SearchDonateCity from "./SearchDonateCity";
     import Ticker from "./Ticker";
     import AboutUs from "./AboutUs";
-
-
 
     export default {
         name: "Mainpage",
@@ -91,5 +90,5 @@
             min-width: 60%
         }
     }
-    
+
 </style>
