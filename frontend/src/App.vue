@@ -4,18 +4,18 @@
       <img src="@/assets/Logo_Projekt_01.png" class="headerImage"/>
       <Navbar @changeView="changeView"></Navbar>
       <component v-bind:is="comp" :dealers="users" :company="user"></component>
-
+<Footer></Footer>
     </b-container>
 
   </div>
 </template>
 
 <script>
-import Mainpage from "./components/mainpage/Mainpage";
+import { BIcon, BIconArrowUp, BIconArrowDown } from 'bootstrap-vue';
 import Navbar from "./components/mainpage/Navbar";
 import Search from "./components/search/Search";
 import Profile from "./components/profile/Profile";
-import { BIcon, BIconArrowUp, BIconArrowDown } from 'bootstrap-vue'
+import Mainpage from "./components/mainpage/Mainpage";
 import Footer from "./components/footer/Footer";
 
 
@@ -30,7 +30,7 @@ export default {
       BIcon,
       BIconArrowUp,
       BIconArrowDown,
-      Footer
+      Footer,
   },
   mounted() {
     document.title = 'Ladenliebe'
@@ -354,4 +354,9 @@ export default {
   height: auto !important;
   float:left;
 }
+h2 {
+  margin-top: 1.5em !important;
+  margin-bottom: 1em !important;
+}
+
 </style>

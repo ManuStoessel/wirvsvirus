@@ -20,16 +20,15 @@
                     <p>E-Mail: <a :href="'mailto:' + company.email">{{ company.email }} </a></p>
                 </div>
 
-
             <div align="left">
-                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                <div>
                     <input type="hidden" name="cmd" value="_s-xclick" />
                     <input type="hidden" name="hosted_button_id" :value="company.payPalButtonId" />
                     <input type="image" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0"
                            name="submit" title="PayPal - Der sichere, einfache Weg online zu bezahlen!" alt="Mit dem PayPal Button spenden"
                            v-b-modal.modal-comment>
                     <img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" @click="createComment" />
-                </form>
+                </div>
             </div>
                 </b-col>
             <b-col>
@@ -52,7 +51,7 @@
                 </b-row>
         </b-container>
 
-        <b-modal hide-footer id="modal-comment"  title="Kommentar erstellen">
+        <b-modal hide-footer id="modal-comment"  title="Spende und hinterlasse Deinen Gruß">
             <CommentCreator :company="company"></CommentCreator>
         </b-modal>
 

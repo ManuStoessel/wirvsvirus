@@ -10,6 +10,15 @@
         >
             <b-form-group
                     label-cols-sm="2"
+                    label="Spende:"
+                    label-align-sm="right"
+                    label-for="donation"
+            >
+                <b-form-input v-model="comment.donation" type="text" id="donation"  placeholder="Deine Spende über PayPal (€)" required ></b-form-input>
+            </b-form-group>
+
+            <b-form-group
+                    label-cols-sm="2"
                     label="Name:"
                     label-align-sm="right"
                     label-for="username"
@@ -23,7 +32,7 @@
                     label-align-sm="right"
                     label-for="description"
             >
-                <b-form-textarea v-model="comment.comment" id="description" placeholder="Wir befinden uns in folgender Situation..."
+                <b-form-textarea v-model="comment.comment" id="description" placeholder="Haltet durch, wir sind mit euch ..."
                                  aria-describedby="descriptionInvalidFeedback"
                                  @focus="descriptionFocused = true"
                                  @blur="descriptionFocused = false"

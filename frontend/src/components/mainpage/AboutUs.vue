@@ -1,8 +1,13 @@
 <template>
     <div>
         <div class="aboutUs">
+
             <b-row style="margin-right: 0">
                 <b-col cols="7" class="aboutUsText">
+                    <div style="text-align: left">
+                      <h1><strong>LadenLiebe</strong></h1>
+                    </div>
+
                     <div style="font-size: 1.5rem; text-align: left">
                         <p>Werde zum Stadtretter und spende für deinen Lieblingsladen.</p>
                     </div>
@@ -41,7 +46,7 @@
                 </p>
             </div>
         </div>
-        <hr>
+        <p style="margin-top: 6em"></p>
 
     </div>
 </template>
@@ -53,7 +58,6 @@
 </script>
 
 <style scoped>
-
 
     .aboutUs{
         background-image: url('../../assets/LadenLiebeLogo_1.png');
@@ -69,12 +73,12 @@
     }
     .aboutUsImage{
         margin-right: 20%;
-        margin-top: 3%;
+        margin-top: 2em;
         margin-bottom: 6%;
 
     }
     .aboutUsText{
-        margin-top:2%;
+        margin-top:2em;
         padding-left: 5%;
         padding-right: 10%;
         margin-bottom: 5%;
